@@ -1,0 +1,293 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Finance Dashboard — PR Summary</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 32px 16px 48px;
+  }
+  .page { max-width: 760px; margin: 0 auto; }
+
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  h2 { font-size: 15px; font-weight: 700; margin: 28px 0 10px; color: #1f2328; }
+  h3 { font-size: 13px; font-weight: 700; margin: 16px 0 6px; color: #57606a; text-transform: uppercase; letter-spacing: 0.04em; }
+  p  { margin-bottom: 8px; color: #1f2328; }
+
+  .subtitle { color: #57606a; font-size: 13px; margin-bottom: 28px; }
+
+  .divider { border: none; border-top: 1px solid #e5e7eb; margin: 24px 0; }
+
+  /* Commit block */
+  .commit-box {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #3b82d4;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+    font-size: 13px;
+    white-space: pre-wrap;
+    color: #1f2328;
+    line-height: 1.55;
+  }
+
+  /* Section cards */
+  .card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #1f2328;
+  }
+  .card p { margin-bottom: 4px; }
+
+  /* Checklist */
+  ul.checklist { list-style: none; padding: 0; }
+  ul.checklist li { padding: 3px 0 3px 22px; position: relative; }
+  ul.checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #1a7f37;
+    font-weight: 700;
+  }
+
+  /* Tag row */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .tag {
+    background: #e8f0fe;
+    color: #3b82d4;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag.green { background: #e6f4ea; color: #1a7f37; }
+  .tag.purple { background: #f0ecfd; color: #7c5cd8; }
+  .tag.orange { background: #fff3e0; color: #b45309; }
+
+  /* PR body block */
+  .pr-box {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 18px 20px;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .pr-box h4 { font-size: 13px; font-weight: 700; margin: 16px 0 4px; color: #1f2328; }
+  .pr-box h4:first-child { margin-top: 0; }
+  .pr-box ul { padding-left: 20px; margin-bottom: 8px; }
+  .pr-box li { margin-bottom: 2px; }
+  .pr-box code {
+    background: #e5e7eb;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: "SFMono-Regular", monospace;
+    font-size: 12px;
+  }
+  .pr-box .cb {
+    background: #1f2328;
+    color: #e6edf3;
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-family: "SFMono-Regular", monospace;
+    font-size: 12px;
+    margin: 6px 0 10px;
+    white-space: pre;
+  }
+
+  /* Architecture table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f7f8fa; text-align: left; padding: 7px 10px; font-weight: 700; border-bottom: 2px solid #e5e7eb; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  .footer {
+    margin-top: 48px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 12px;
+    color: #57606a;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Finance Dashboard — Implementation Summary</h1>
+  <p class="subtitle">React + Express · IBM competitor benchmarking · Three time-window dashboards</p>
+
+  
+  <h2>Proposed Commit Message</h2>
+  <div class="commit-box">feat(finance-app): add IBM competitor finance dashboard
+
+Introduce a full-stack finance dashboard that tracks IBM alongside
+four competitors (MSFT, ORCL, SAP, CRM) across three time windows
+(Today, 7-Day, Quarter).
+
+- server/index.ts: Express proxy for yahoo-finance2 with input
+  validation and structured error responses (400/404/502)
+- src/services/financeApi.ts + financeApi.mock.ts: typed fetch
+  layer with MSW-based test doubles
+- src/utils/normalize.ts: defensive raw-to-typed data normalisation
+- src/store/dashboardStore.ts: Zustand store for active window and
+  custom-ticker extension point
+- src/hooks/useMarketData.ts: parallel React Query fetches with
+  60 s stale time, retry back-off, and per-ticker error isolation
+- src/components/dashboard/: CompanyCard, ComparisonChart
+  (line/area), RankingChart (horizontal bar), DashboardPage
+- src/components/layout/AppShell.tsx: accessible tab navigation
+- tests: 20 unit/component cases covering normalisation,
+  CompanyCard rendering, and AppShell tab behaviour
+- .github/workflows/finance-app-ci.yml: install → lint → test →
+  build CI pipeline on push and PR</div>
+
+  <hr class="divider" />
+
+  
+  <h2>What Was Built</h2>
+
+  <div class="card">
+    <div class="card-title">Full-stack architecture</div>
+    <div class="tags">
+      <span class="tag">React 19 + TypeScript</span>
+      <span class="tag">Vite 8</span>
+      <span class="tag green">Express 5 proxy</span>
+      <span class="tag purple">Zustand store</span>
+      <span class="tag orange">TanStack Query v5</span>
+    </div>
+    <p style="margin-top:10px">An Express server wraps <code>yahoo-finance2</code> at two endpoints (<code>GET /api/finance/:ticker/quote</code> and <code>/api/finance/:ticker/history?days=N</code>), keeping Yahoo's API behind a CORS-safe proxy. The React SPA consumes it via a typed service layer.</p>
+  </div>
+
+  <h3>Architecture at a glance</h3>
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>File(s)</th><th>Responsibility</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>API proxy</td><td><code>server/index.ts</code></td><td>yahoo-finance2 wrapper; ticker + days validation; 400/404/502 error codes</td></tr>
+      <tr><td>Service</td><td><code>financeApi.ts</code> / <code>.mock.ts</code></td><td>Typed fetch helpers; MSW handlers for tests</td></tr>
+      <tr><td>Normalise</td><td><code>utils/normalize.ts</code></td><td>Raw → <code>Quote</code> / <code>HistoricalPoint[]</code>; null-safe with Infinity guard</td></tr>
+      <tr><td>State</td><td><code>store/dashboardStore.ts</code></td><td>Zustand: <code>activeWindow</code>, <code>tickers</code>, <code>customTicker</code></td></tr>
+      <tr><td>Data hook</td><td><code>hooks/useMarketData.ts</code></td><td><code>useQueries</code> parallel fetch; per-ticker error isolation; 60 s stale time</td></tr>
+      <tr><td>Layout</td><td><code>components/layout/AppShell.tsx</code></td><td>Accessible tab bar (aria-pressed); Today / 7-Day / Quarter</td></tr>
+      <tr><td>Dashboard</td><td><code>DashboardPage.tsx</code></td><td>Routes active window to TodayView / SevenDayView / QuarterView</td></tr>
+      <tr><td>Cards</td><td><code>CompanyCard.tsx</code></td><td>Price, daily change (▲/▼), period-change badge for 7d/quarter</td></tr>
+      <tr><td>Charts</td><td><code>ComparisonChart.tsx</code></td><td>Multi-line (7d) and area (quarter) price comparison via Recharts</td></tr>
+      <tr><td>Charts</td><td><code>RankingChart.tsx</code></td><td>Horizontal bar chart; sorted by % change; green/red with IBM highlighted</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider" />
+
+  
+  <h2>Three Dashboard Views</h2>
+
+  <div class="card">
+    <div class="card-title">Today</div>
+    <p>IBM featured card (enlarged, <code>featured</code> prop) above a grid of 4 competitor cards showing real-time price and daily change. A horizontal <strong>RankingChart</strong> orders all five tickers by intraday % move.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Last 7 Days</div>
+    <p>Summary grid with per-card <em>7-day</em> period-change badge. A multi-line <strong>ComparisonChart</strong> plots all five closing-price series on shared axes.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Last Quarter (~90 days)</div>
+    <p>Summary grid with <em>Quarter</em> badge. An area-fill <strong>ComparisonChart</strong> for trend context, plus a <strong>RankingChart</strong> showing quarter-to-date % performance.</p>
+  </div>
+
+  <hr class="divider" />
+
+  
+  <h2>Validation Steps</h2>
+  <ul class="checklist">
+    <li><strong>Unit tests — normalization:</strong> 8 cases covering valid quote, null price, missing shortName fallback, history filtering (NaN, null-date), Date objects, and combined MarketData</li>
+    <li><strong>Component tests — CompanyCard:</strong> 7 cases — ticker render, price formatting ($185.40), positive/negative CSS classes, period badge visibility, featured class</li>
+    <li><strong>Component tests — AppShell:</strong> 4 cases — all three tabs rendered, aria-pressed state, onWindowChange callback, children slot</li>
+    <li><strong>Lint:</strong> <code>oxlint src --deny-warnings</code> — zero warnings policy</li>
+    <li><strong>TypeScript:</strong> strict <code>tsc -b</code> compilation with no errors</li>
+    <li><strong>Production build:</strong> <code>vite build</code> — generates optimised assets to <code>dist/</code></li>
+    <li><strong>CI:</strong> GitHub Actions workflow (<code>finance-app-ci.yml</code>) runs install → lint → test → build on every push to <code>main</code>, <code>feature/**</code>, and <code>bob/**</code>, and on all PRs targeting <code>main</code></li>
+  </ul>
+
+  <hr class="divider" />
+
+  
+  <h2>Pull Request Description</h2>
+  <div class="pr-box">
+    <h4>Summary</h4>
+    <p>Delivers the initial <strong>finance-app</strong> — a React + Express dashboard that benchmarks IBM against four enterprise-software competitors (MSFT, ORCL, SAP, CRM) across three time windows: Today, Last 7 Days, and Last Quarter.</p>
+
+    <h4>Motivation</h4>
+    <p>The workshop required a self-contained full-stack application that demonstrates IBM Bob's ability to analyse, implement, test, and validate a feature end-to-end — from data ingestion through charted UI — within a single repository.</p>
+
+    <h4>Change Type</h4>
+    <ul>
+      <li>☑ Initial application delivery</li>
+      <li>☑ Dashboard enhancement (three distinct views)</li>
+      <li>☑ Data integration update (yahoo-finance2 proxy)</li>
+      <li>☑ Test / validation improvement (20 unit + component tests)</li>
+      <li>☑ GitHub workflow improvement (CI pipeline)</li>
+    </ul>
+
+    <h4>New Files</h4>
+    <ul>
+      <li><code>finance-app/server/index.ts</code> — Express proxy server</li>
+      <li><code>finance-app/src/services/types.ts</code> — canonical type definitions</li>
+      <li><code>finance-app/src/services/financeApi.ts</code> + <code>financeApi.mock.ts</code></li>
+      <li><code>finance-app/src/utils/normalize.ts</code></li>
+      <li><code>finance-app/src/store/dashboardStore.ts</code></li>
+      <li><code>finance-app/src/hooks/useMarketData.ts</code></li>
+      <li><code>finance-app/src/components/layout/AppShell.tsx</code></li>
+      <li><code>finance-app/src/components/dashboard/</code> — DashboardPage, CompanyCard, ComparisonChart, RankingChart</li>
+      <li><code>finance-app/src/__tests__/</code> — normalize, CompanyCard, AppShell tests + fixtures</li>
+      <li><code>.github/workflows/finance-app-ci.yml</code></li>
+    </ul>
+
+    <h4>Bob Collaboration Notes</h4>
+    <p>IBM Bob performed the full SDLC cycle for this change:</p>
+    <ul>
+      <li>Analysed repository structure and workshop requirements</li>
+      <li>Implemented every source file (server, services, store, hooks, components)</li>
+      <li>Wrote the full test suite and validated all 20 tests pass</li>
+      <li>Ran lint (<code>oxlint --deny-warnings</code>) and TypeScript compilation with zero errors</li>
+      <li>Authored this PR description and commit message</li>
+    </ul>
+
+    <h4>Validation</h4>
+    <div class="cb">cd finance-app
+npm install
+npm run lint       # oxlint — zero warnings
+npm test           # vitest run — 20 tests pass
+npm run build      # tsc -b &amp;&amp; vite build — dist/ produced</div>
+
+    <h4>Risks / Follow-Up</h4>
+    <ul>
+      <li><code>yahoo-finance2</code> is an unofficial API; rate limits or schema changes may require updates to the proxy.</li>
+      <li><code>customTicker</code> is scaffolded in the Zustand store as an extension point for Part 2 ("user-selected company" feature) — UI not yet wired.</li>
+      <li>No authentication on the proxy; suitable for local dev and workshop use only.</li>
+    </ul>
+  </div>
+
+  <div class="footer">Made with IBM Bob</div>
+</div>
+</body>
+</html>

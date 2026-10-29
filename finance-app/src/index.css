@@ -1,0 +1,327 @@
+/* ── Reset & base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  background: #f0f2f5;
+  color: #1f2328;
+}
+
+/* ── App Shell ───────────────────────────────────────────────────── */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #161b22;
+  color: #fff;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  min-height: 60px;
+  border-bottom: 2px solid #3b82d4;
+}
+
+.app-title {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.app-title-ibm {
+  color: #78b4f0;
+}
+
+.app-main {
+  flex: 1;
+  padding: 28px 24px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #8b949e;
+  padding: 14px 24px;
+  border-top: 1px solid #d0d7de;
+  background: #fff;
+  letter-spacing: 0.2px;
+}
+
+/* ── Time-window tabs ────────────────────────────────────────────── */
+.time-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background: #21262d;
+  color: #e6edf3;
+  border-color: #8b949e;
+}
+
+.tab-btn--active {
+  background: #3b82d4;
+  border-color: #3b82d4;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Shared section layout ───────────────────────────────────────── */
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #57606a;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+}
+
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Company cards grid ──────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.company-card {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 18px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: box-shadow 0.15s;
+}
+
+.company-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+}
+
+/* IBM featured card in Today view */
+.company-card--featured {
+  border: 2px solid #3b82d4;
+  border-radius: 12px;
+  padding: 22px 20px 18px;
+  max-width: 320px;
+}
+
+.company-card--featured .card-price {
+  font-size: 32px;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.card-ticker {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2328;
+}
+
+.card-name {
+  font-size: 12px;
+  color: #57606a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-price {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.card-change {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.change--positive { color: #1a7f37; }
+.change--negative { color: #cf222e; }
+.change-arrow { font-size: 9px; }
+
+/* Period badge (7d / quarter) */
+.card-period-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.badge--positive {
+  background: #dafbe1;
+  color: #116329;
+}
+
+.badge--negative {
+  background: #ffeef0;
+  color: #a40e26;
+}
+
+.badge-label {
+  font-weight: 400;
+  opacity: 0.8;
+  font-size: 11px;
+}
+
+/* ── Today view layout ───────────────────────────────────────────── */
+.view-today {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.today-featured {
+  display: flex;
+  flex-direction: column;
+}
+
+.today-peers {}
+
+.today-ranking {
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 20px 20px 12px;
+}
+
+/* ── 7-Day & Quarter view layout ─────────────────────────────────── */
+.view-7d,
+.view-quarter {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.view-cards {}
+
+.view-chart {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 22px 20px 12px;
+}
+
+.view-ranking {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 20px 20px 12px;
+}
+
+/* ── Comparison chart ────────────────────────────────────────────── */
+.comparison-chart {}
+
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #57606a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.chart-empty {
+  color: #57606a;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+/* ── Ranking chart ───────────────────────────────────────────────── */
+.ranking-chart {}
+
+.ranking-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #57606a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* ── Loading spinner ─────────────────────────────────────────────── */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 0;
+}
+
+.spinner-ring {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #d0d7de;
+  border-top-color: #3b82d4;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner-label {
+  font-size: 13px;
+  color: #57606a;
+}
+
+/* ── Error banner ────────────────────────────────────────────────── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff5f5;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #7f1d1d;
+}
+
+.error-icon { font-size: 14px; }
+.error-ticker { font-weight: 700; margin-right: 2px; }
